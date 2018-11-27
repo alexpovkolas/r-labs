@@ -52,7 +52,7 @@ trunc(2.6)
 #truncate для работы с файлами!!!
 is.integer(trunc(2.6))
 
-a<-5
+(a<-5)
 is.double(a)
 is.numeric(a)
 #single нет
