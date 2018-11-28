@@ -24,22 +24,11 @@ gcd <- function(n, m) {
   }
 }
 
-gcd(1071, 462) == 21
-
-
-
 gcd_v <- function(...) {
   args <- c(...)
-  res <- args[1]
-  
-  gcd_internal <- function(x) {  
-    res = gcd(res, x)
-  }
-  
-  #lapply(args, gcd_internal)
-  
-  #return(res)
-  return (lapply(args, sum))
+  return (Reduce(gcd, args, args[1]))
 }
 
-(gcd_v(1, 1071, 462, 1))
+#gcd(1071, 462) == 21
+
+#(gcd_v(1071, 462, 42, 84, 12))
