@@ -1,0 +1,99 @@
+---
+title: "The Iris Data Set"
+author: "Ihar Badziahin"
+date: "26 September, 2017"
+output:
+  html_document: default
+  word_document: default
+  pdf_document: default
+header-includes:
+- \usepackage[T2A]{fontenc}
+- \usepackage[utf8]{inputenc}
+- \usepackage[russian]{babel}
+bibliography: bibliography.bib
+---
+
+Строки 9-12 Рнужны для TeX-а, чтобы он подключил корректнгый шрифт для кириллицы. Эти строки нужны, если вы формируете pdf файл. [Костыль] Чтобы вообще все замечательно работало с кириллицей, надо в файле  \"C:/Users/Username/Documents/R/win-library/3.4/rmarkdown/rmd/latex/default-*.tex\" удалить или закомменировать строчку \"\\usepackage{lmodern}\", иначе в тексте пропадут жирный или курсивный шрифты. Также отметим, что пакет cm-super для LaTeX-а должен быть установлен. Ворой вариант использовать другой LaTeX Engine, например, XeLaTeX.
+
+```{r setup, include = FALSE}
+library(xtable)
+library(stargazer)
+data("iris")
+```
+
+Параметр *include* означает включать ли в итоговый файл текущий блок, при этом вычисляться он будет в любом случае.
+
+Три звездочки служат для отображения горизонтальной линии, как внизу.
+
+***
+
+## Scatterplot Matrix
+
+All information about RMarkDown can be found [here](rmarkdown.rstudio.com).
+
+```{r scatterplot, echo = FALSE}
+plot(iris)
+```
+
+Параметр *echo* указывает включать ли в итоговый файл исходный код блока. Результат выполнения блока будет включаться в любом случае.
+
+##Descriptions
+
+This famous dataset [@anderson, @fisher, @anderson] gives the measurments in centimeters of the variables sepal length and width  and petal length and width, respectevly, for **50 flowers** from each of 3 species of iris. The species are *Iris setosa, versicolor*, and *virginica*.
+
+**Жирный** текст пишется **так**, а *наклонный* вот *так*.
+
+```{r s0, echo = TRUE}
+summary(iris)
+```
+
+***
+
+```{r s, echo = TRUE, results = "hide"}
+summary(iris)
+```
+
+Параметр *results = "hide"* означает, что код будет выполнен, но результат не будет вставлен. Имеет смыл использовать с параметром *echo = TRUE*, который означает, что сам исходный код будет вставлен (в противном случае имеет смысл написать *include = FALSE*).
+
+```{r s1, echo = TRUE, eval = FALSE}
+head(iris)
+```
+
+Параметр *eval* указывает, необходимо ли выполнять код, записанный в блоке.
+
+```{r s2, results = "asis", echo = FALSE}
+options(xtable.comment = FALSE)
+xtable::xtable(summary(iris), type = "latex", comment = FALSE, caption = "Summary of the data set")
+```
+
+Если команда возвращает TeX-овских код, то чтобы он корректно отобразился в итоговом документе, надо установить *results = \"asis\"*.
+
+```{r regreg, echo = FALSE, include = FALSE}
+iris[['Is.Versicolor']] <- as.numeric(iris[['Species']] == 'versicolor')
+iris[['Is.Virginica']] <- as.numeric(iris[['Species']] == 'virginica')
+fit.1 <- glm(Is.Versicolor ~ Petal.Length + Sepal.Length, data = iris)
+fit.2 <- glm(Is.Virginica ~ Petal.Length + Sepal.Length, data = iris)
+#summary(fit)
+output <- capture.output(stargazer(fit.1, fit.2, title = 'Regression Results',  summary = FALSE, header = FALSE))
+```
+
+```{r qw, results = "asis", echo=TRUE, comment=""}
+cat(output)
+```
+
+## Some other Exapmles 
+
+```{python p1, echo = TRUE, result = TRUE}
+x = 'hello, python world!'
+print(x.split(' '))
+```
+
+Можно вставлять python код, единственное, необходимо, чтобы был установлен интерпретатор python. В идеале, если он установлен, то должен автоматически запускаться, но например, у меня не заработало, поэтому я явно указал параметр *engine.path*.
+
+![Little cat](onliner_cat.jpeg)
+
+$$\sum \limits _{i=1} ^{5} x_{i}^{2}$$
+
+Можно вставить формулу (правда в Word плохо вставляются...)
+
+## References

@@ -1,0 +1,59 @@
+---
+title: "Лабараторная работа №4"
+author: "Александр Повколас"
+date: "29 Ноября, 2018"
+output:
+  html_document: default
+  word_document: default
+  pdf_document: default
+header-includes:
+- \usepackage[T2A]{fontenc}
+- \usepackage[utf8]{inputenc}
+- \usepackage[russian]{babel}
+bibliography: bibliography.bib
+---
+
+```{r setup, include=FALSE}
+
+library(xtable)
+library(stargazer)
+```
+
+# Задание 1
+## Генерация и простейшие статистики
+
+Сгенерировать выборку из **200** элементов из нормального закона распределения[@shiryaev] со следеющими параметрами: 
+$$N(\mu, \sigma^{2}) , \mu = 0, \sigma^{2} = 4$$ 
+
+Вывести первые **10** и последние **20** сгенерированных значений. Вывести минимальный и максимальный элементы, выборочные оценки математического ожидания, дисперсии, медианы, коэффициентов асимметрии и эксцесса, **25%** и **75%** - квантилей, **95%** - квантиля. Сравнить полученные оценки с теоретическими значениями. Построить ящик с *усами (диаграмма размаха)*, *эмпирическую функцию распределения*. Построить *выборочную гистограмму* и поверх нее *теоретическую плотность распределения*.
+
+```{r task1, echo=FALSE}
+size <- 2000
+y <- rnorm(size, mean = 0, sd = 2)
+print("First 10")
+head(y, 10)
+print("Last 20")
+tail(y, 20)
+
+library(moments)
+
+summ <- summary(y)
+summ["Var"] <- var(y)
+summ["Skewness"] <- skewness(y)
+summ["Kurtosis"] <- kurtosis(y)
+summ["95% Qu"] <- quantile(y, 0.95)
+summ
+
+boxplot(y, main="Ящик с усами", col="seagreen")
+
+n1 = length(y)
+plot(sort(y), (1:n1)/n1, col="seagreen", main="Эмпирическая функция распределения", xlab="", ylab = "")
+
+hist(y, right=F, col="seagreen", main="Гистограмма", xlab="", ylab="", freq = FALSE)
+plot(function(x) dnorm(x, mean=0, sd=2), -6, 6, add=T,col=scales::alpha('red',.9), lwd=3)
+
+
+
+```
+
+## References

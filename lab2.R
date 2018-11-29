@@ -29,6 +29,6 @@ gcd_v <- function(...) {
   return (Reduce(gcd, args, args[1]))
 }
 
-#gcd(1071, 462) == 21
+gcd(1071, 462) == 21
 
-#(gcd_v(1071, 462, 42, 84, 12))
+(gcd_v(1071, 462, 42, 84))

@@ -33,7 +33,7 @@ s <- unlist(strsplit('абвг', ''))
 positions <- (0:(length(s) - 1))
 alf_positions <- match(s, alf_v)
 res_positions <- (alf_positions + positions) %% length(alf_v)
-paste(alf_v[res], collapse="")
+paste(alf_v[res_positions], collapse="")
 
 #Task 3
 v1
@@ -53,11 +53,13 @@ m
 (eigen(m))
 (eigen(m)$values)
 diag(m)
-m*m
 
 #Для матрицы m1 найти: определитель, собственные вектора и значения, 
 #вектор диагональных элементов, v1^2 и матрицу v2, у которой v2[i][j] = (v1[i][j])2
 # v1 - ??
+m*m
+#v2 = lapply(m, function(x) x*x)
+#v2
 
 
 #Task 4
@@ -84,6 +86,7 @@ team.frame <- data.frame(team.names,
 names(team.frame) <- c('Name', 'Sport', 'Gender', 'Weight', 'Olympic Champion')
 (team.frame)
 res <- subset(team.frame, Weight > 80 & Sport == 'football')
+(team.frame[team.weight > 80 & team.sport == 'football', ])
 res
 
 team.gender.factor <- factor(team.gender)

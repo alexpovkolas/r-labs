@@ -1,11 +1,11 @@
 library(Rcpp)
 library(tictoc)
 sourceCpp("lab5.cpp")
-source("lab2.r")
+source("lab2.R")
 
 
-args <- sample(1:10000, 50)
-
+args <- sample.int(5000)
+#args <- c(1071, 462, 42, 84, 12)
 
 tic()
 
@@ -19,11 +19,11 @@ toc()
 
 tic()
 
-res.r <- gcd_v(args)
+res.rr <- gcd_v(args)
 
 
 print('R result ')
-res.r
+res.rr
 toc()
 
 

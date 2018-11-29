@@ -33,7 +33,7 @@ quantile(x, type = 1)
 
 quantile(x, probs = seq(0,1,0.1))
 
-#install.packages("ISwR")
+install.packages("ISwR")
 library(ISwR)
 #Пример простейшено анализа данных
 juul

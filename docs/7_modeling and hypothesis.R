@@ -17,7 +17,7 @@ barplot(v)
 table(v)
 barplot(table(v))
 
-barplot(dbinom(0:7, 7, .3))
+
 
 #проверка теоретического факта, что сумма случайных величин 
 #из экспоненциального распределения, есть случайная величина из гамма-рпспределения
@@ -67,7 +67,7 @@ mean(v)
 apply(v, 2, mean)
 
 #способ 2
-#install.packages("mnormt")
+install.packages("mnormt")
 library(mnormt)
 
 v2 <- rmnorm(n=100, c(2,0), Sigma)
