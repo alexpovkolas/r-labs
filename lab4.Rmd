@@ -44,15 +44,56 @@ summ["Kurtosis"] <- kurtosis(y)
 summ["95% Qu"] <- quantile(y, 0.95)
 summ
 
-boxplot(y, main="Ящик с усами", col="seagreen")
+par(mfrow=c(1, 1))
 
+boxplot(y, main="Box plot", col="seagreen")
+
+par(mfrow=c(1, 1))
 n1 = length(y)
-plot(sort(y), (1:n1)/n1, col="seagreen", main="Эмпирическая функция распределения", xlab="", ylab = "")
+plot(sort(y), (1:n1)/n1, col="seagreen", main="Empirical distribution function", xlab="", ylab = "")
 
-hist(y, right=F, col="seagreen", main="Гистограмма", xlab="", ylab="", freq = FALSE)
+par(mfrow=c(1, 1))
+hist(y, right=F, col="seagreen", main="Histogram", xlab="", ylab="", freq = FALSE)
 plot(function(x) dnorm(x, mean=0, sd=2), -6, 6, add=T,col=scales::alpha('red',.9), lwd=3)
 
 
+
+```
+
+# Задание 2
+## Проверка гипотез
+
+Применяя известные вам тесты согласия (как минимум 2), проверить, что ранее сгенерированная вами выборка согласуется с вашим распределением. Сгенерировать выборку из любого из соседних вариантов, проверить, что новые данные плохо согласуется с распределением из вашего варианта. Одним из тестов согласия проверить гипотезу о том, что две выборки (из задания 1 и новая) принадлежат одному закону распределения
+
+```{r task2, echo=TRUE}
+
+shapiro.test(y)
+ks.test(y,"pnorm", 0, 2)
+
+ks.test(y,"pexp", 0.25)
+
+
+```
+# Задание 3
+## Проверка гипотез
+
+Сгенерировать 1000 выборок из вашего варианта, для каждой из них проверить гипотезу о принадлежности к распределению из вашего варианта. Вывести для скольких выборок гипотеза была отвергнута.
+
+```{r task3, echo=TRUE}
+
+size <- 200
+count <- 1000
+negative <- 0
+p.value <- 0.1
+
+for(i in 1:count) {
+  res <- ks.test(rnorm(size, mean = 0, sd = 2), "pnorm", 0, 2) 
+  if (res[2] < p.value ) {
+      negative <- negative + 1
+  }
+}
+
+cat("Negative: ", negative / count, "%")
 
 ```
 
