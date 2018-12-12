@@ -86,6 +86,7 @@ for (i in 1:20) {
   if (cor > max.cor) {
     params.best <- res
     alpha.best <- alpha
+    max.cor <- cor
   }
   
   alpha <- alpha + step
@@ -107,6 +108,76 @@ p.order = order(sample.df$x)
 lines(sample.df$x[p.order], result.lm[p.order], col = 'red')
 lines(sample.df$x[p.order], result.nlm[p.order], col = 'blue')
 
-result.nlm.params
+
+#Task 3
+#
+#Из файла Lab2Task3Var16.scv загрузить данные. Данные содержат как значения зависимых переменных, так и независимых в модели 
+#множественной линейной регрессии. В случайно выбранные 10 значений y внести пропуски. По полностью наблюдаемым значениям оценки 
+#коэффициентов регрессии, определить какие из них статистически значимые, а какие нет. Кроме этого провести "пошаговую оценку коэффициентов 
+#регрессии" как с добавлением переменных, так и с удалением. Выберете на ваш взгляд наиболее адекватную модель (если модели получились
+#различные) и спрогнозируйте те значения y, в которые были внесены пропуски, сравните с исходными значениями.
+install.packages("caret")
+
+library(caret)
+sample.df <- read.csv(file="data/Lab3Task3Var16.csv")
+
+sample.miss <- sample.df
+miss.index <- sample(1:100, 10)
+sample.miss$y[miss.index] <- NA
+sample.omit <- na.omit(sample.df.miss)
+
+
+sample.omit.lm <- lm(y ~.,data = sample.df.omit)
+sample.omit.predict <- predict(sample.omit.lm, sample.df.omit)
+
+varImp(sample.omit.lm, scale = TRUE)
+
+imp.index = c(2, 4, 6, 9, 12)
+sample.imp <- sample.omit[imp.index]
+sample.imp.lm <- lm(y ~., data = sample.imp)
+sample.imp.lm
+sample.omit.lm
+sample.imp.predict <- predict(sample.imp.lm, sample.imp)
+
+sample.imp.cor <- cor(sample.imp.predict, sample.omit$y)
+
+install.packages("combinat")
+library(combinat)
+
+max.cor <- sample.imp.cor
+best.cols <- imp.index
+best.lm <- sample.imp.lm
+cols.all <- c(3, 5, 7, 8, 10, 11)
+
+for (i in 1:3) {
+  #str(i)
+  t <- combn(cols.all, i)
+  #str(t)
+  for (j in 1:ncol(t)) {
+    used.cols <-t[,j]
+    #str(used.cols)
+    cols <- sort(c(imp.index, used.cols))
+    #str(cols)
+    df <- sample.omit[cols]
+    lm <- lm(y ~.,data = df)
+    predict <- predict(lm, df)
+    cor <- cor(predict, df$y)
+    #str(cor)
+    if (cor > max.cor) {
+      max.cor <- cor
+      best.cols <- cols
+      best.lm <- lm
+    }
+  }
+}
+
+colnames(sample.df)[best.cols]
+max.cor
+sample.imp.cor
+
+
+
+
+
 
 
