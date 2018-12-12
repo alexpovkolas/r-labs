@@ -3,9 +3,9 @@ title: "Лабараторная работа №4"
 author: "Александр Повколас"
 date: "29 Ноября, 2018"
 output:
-  html_document: default
-  word_document: default
   pdf_document: default
+  word_document: default
+  html_document: default
 header-includes:
 - \usepackage[T2A]{fontenc}
 - \usepackage[utf8]{inputenc}
