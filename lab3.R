@@ -100,7 +100,7 @@ fn <- function(par,  x) {
 }
 
 result.nlm.params <- nlm(p = c(03, 0.5, 5), f = fn, x = sample.df)
-result.nlm <- result.nlm.params$estimate[1] + result.nlm.params$estimate[2]*sin(result.nlm.params$estimate[3]*sample.data.frame$x)
+result.nlm <- result.nlm.params$estimate[1] + result.nlm.params$estimate[2]*sin(result.nlm.params$estimate[3]*sample.df$x)
 
 plot(y~x, data = sample.df)
 p.order = order(sample.df$x)
