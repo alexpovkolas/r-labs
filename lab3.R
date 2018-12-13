@@ -117,6 +117,7 @@ lines(sample.df$x[p.order], result.nlm[p.order], col = 'blue')
 #регрессии" как с добавлением переменных, так и с удалением. Выберете на ваш взгляд наиболее адекватную модель (если модели получились
 #различные) и спрогнозируйте те значения y, в которые были внесены пропуски, сравните с исходными значениями.
 install.packages("caret")
+install.packages("combinat")
 
 library(caret)
 sample.df <- read.csv(file="data/Lab3Task3Var16.csv")
@@ -141,7 +142,7 @@ sample.imp.predict <- predict(sample.imp.lm, sample.imp)
 
 sample.imp.cor <- cor(sample.imp.predict, sample.omit$y)
 
-install.packages("combinat")
+
 library(combinat)
 
 max.cor <- sample.imp.cor
@@ -175,9 +176,13 @@ colnames(sample.df)[best.cols]
 max.cor
 sample.imp.cor
 
+missed <- sample.df[miss.index, ]
 
+missed.predict <- predict(best.lm, missed)
 
+cor(missed.predict, missed$y)
 
-
+missed.predict
+missed$y
 
 
