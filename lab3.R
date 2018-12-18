@@ -23,7 +23,7 @@ Sigma <- crossprod(p, p*(4:1))
 Sigma
 det(Sigma)
 
-Mu <- c(1, 1, 1, 1)
+Mu <- c(1, 2, 3, 4)
 
 sample.data <- mvrnorm(n = size, mu = Mu, Sigma = Sigma, empirical = FALSE)
 colnames(sample.data) <- c('Y', 'X1', 'X2', 'X3')
@@ -39,7 +39,7 @@ shapiro.test(sample.data.frame$X3)
 #истинные значения
 m1 <- Mu[1]
 m2 <- matrix(Mu[2:4], 3, 1)
-Sigma12 <- Sigma[2, c(2:4)]
+Sigma12 <- Sigma[1, c(2:4)]
 Sigma22 <- Sigma[c(2:4), c(2:4)]
 
 sample.coefficients <- Sigma12 %*% solve(Sigma22)
@@ -93,7 +93,9 @@ for (i in 1:20) {
 }
 
 result.lm <- params.best$coefficients[1] + params.best$coefficients[2]*sin(alpha.best*sample.df$x)
-
+alpha.best
+params.best
+result.lm
 # nlm
 fn <- function(par,  x) {
   mean((x$y - par[1] - par[2]*sin(par[3]*x$x))^2)
@@ -101,7 +103,7 @@ fn <- function(par,  x) {
 
 result.nlm.params <- nlm(p = c(03, 0.5, 5), f = fn, x = sample.df)
 result.nlm <- result.nlm.params$estimate[1] + result.nlm.params$estimate[2]*sin(result.nlm.params$estimate[3]*sample.df$x)
-
+result.nlm.params
 plot(y~x, data = sample.df)
 p.order = order(sample.df$x)
 
@@ -116,8 +118,9 @@ lines(sample.df$x[p.order], result.nlm[p.order], col = 'blue')
 #коэффициентов регрессии, определить какие из них статистически значимые, а какие нет. Кроме этого провести "пошаговую оценку коэффициентов 
 #регрессии" как с добавлением переменных, так и с удалением. Выберете на ваш взгляд наиболее адекватную модель (если модели получились
 #различные) и спрогнозируйте те значения y, в которые были внесены пропуски, сравните с исходными значениями.
-install.packages("caret")
-install.packages("combinat")
+
+#install.packages("caret")
+#install.packages("combinat")
 
 library(caret)
 sample.df <- read.csv(file="data/Lab3Task3Var16.csv")
@@ -141,7 +144,7 @@ sample.omit.lm
 sample.imp.predict <- predict(sample.imp.lm, sample.imp)
 
 sample.imp.cor <- cor(sample.imp.predict, sample.omit$y)
-
+sample.imp.cor
 
 library(combinat)
 
